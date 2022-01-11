@@ -13,7 +13,6 @@ const fileUpload = require('express-fileupload');
 
 app.use(express.static(__dirname + '/uploads'));
 app.use('/uploads', express.static('uploads'));
-// enable files upload
 app.use(fileUpload({
     createParentPath: true
 }));
@@ -29,15 +28,17 @@ app.use(cors())
 const user_routes = require('./routes/user.routes')
 const type_routes = require('./routes/documentType.routes')
 const document_circulation = require('./routes/documentCirculation.routes')
+const rule_routes = require('./routes/rule.routes')
 // const profile_message_routes = require('./routes/profile_message.routes')
 
 app.use('/api/users', user_routes)
 app.use('/api/types', auth, type_routes)
 app.use('/api/documents', auth, document_circulation)
+app.use('/api/rules', auth, rule_routes)
 // app.use('/api/profile_messages', profile_message_routes)
 
 
-app.listen(process.env.NODE_PORT, "192.168.13.11", async () => {
+app.listen(process.env.NODE_PORT, `${process.env.NODE_IS_HOST}`, async () => {
     try {
         await sequelize.authenticate()
     } catch (error) {
